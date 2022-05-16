@@ -14,21 +14,21 @@ void Player::move(void)
 	static const Uint8 *key;
 	SDL_PumpEvents();
 	key = SDL_GetKeyboardState(NULL);
-	if (key[SDL_SCANCODE_RIGHT])
+	if (key[SDL_SCANCODE_D])
 	{
 		x+=5;
 	}
 
 	
-	if (key[SDL_SCANCODE_LEFT])
+	if (key[SDL_SCANCODE_A])
 	{
 		x-=5;
 	}
-	if (key[SDL_SCANCODE_UP])
+	if (key[SDL_SCANCODE_W])
 	{
 		y-=5;
 	}
-	if (key[SDL_SCANCODE_DOWN])
+	if (key[SDL_SCANCODE_S])
 	{
 		y+=5;
 	}

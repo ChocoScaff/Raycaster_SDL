@@ -2,6 +2,8 @@
 
 class RayCaster
 {
+	private:
+		double Pa=0;
 	public:
 		RayCaster();
 
