@@ -11,7 +11,7 @@ class Display
 	public:
 
 		SDL_Renderer *render = NULL;
-		Display();
+		Display(int x,int y);
 		void Quit(void);
 		void RenderClear(void);
 		void DrawBackground(unsigned char R,unsigned char G,unsigned char B,unsigned char O);

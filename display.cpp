@@ -1,14 +1,14 @@
 #include "display.h"
 
 
-Display::Display()
+Display::Display(int x,int y)
 {
     if(0 != SDL_Init(SDL_INIT_EVERYTHING))
     {
         fprintf(stderr, "Error SDL_Init : %s",SDL_GetError());
     }
 
-    window = SDL_CreateWindow("RPG",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,WidthWindows,HeightWindows,SDL_WINDOW_BORDERLESS);
+    window = SDL_CreateWindow("RPG",x,y,WidthWindows,HeightWindows,SDL_WINDOW_BORDERLESS);
     if(NULL == window)
     {
         fprintf(stderr, "Error SDL_CreateWindow : %s",SDL_GetError());
@@ -89,8 +89,8 @@ void Display::Wait(unsigned int time)
 
 void Display::DrawRect(int x,int y)
 {
-	SDL_SetRenderDrawColor(render,255,0,0,255);	
-	SDL_Rect rect = {WidthWindows/2,HeightWindows-40,40,40};
+	SDL_SetRenderDrawColor(render,255,255,255,255);	
+	SDL_Rect rect = {x*80,y*80,80,80};
 	SDL_RenderFillRect(render, &rect);
-	SDL_RenderPresent(render);
+//	SDL_RenderPresent(render);
 }

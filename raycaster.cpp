@@ -111,5 +111,4 @@ void RayCaster::RayCast(SDL_Renderer *render,int x,int y)
 		SDL_RenderDrawLines(render, point, 2);
 
 	}
-	SDL_RenderPresent(render);
 }

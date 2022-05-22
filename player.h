@@ -5,8 +5,8 @@ class Player
 	private:
 	public:
 		Player();
-		int y=0;
-		int x=0;
+		int y=200;
+		int x=200;
 		void move(void);
 		void drawPlayer(void);
 		void Free(void);
