@@ -3,6 +3,7 @@
 #include "raycaster.h"
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include "map.cpp"
 
 #define PI 3.14159
 #define WidthTexture 40
@@ -11,40 +12,6 @@
 
 RayCaster::RayCaster()
 {
-	/*
- 	screenWidth
-	+-----+------+  -
-	\     |     /   ^
-	 \    |    /    |
-	  \   |   /     | screenDistance aka projectionPlaneDistance
-	   \  |  /      |
- 	    \fov/       |
-	     \|/        v
-	      v         -
-	tan(angle) = opposite / adjacent
-	tan(fov/2) = (screenwidth/2) / screenDistance
-	screenDistance = (screenwidth/2) / tan(fov/2)
-
-      screenX
-            <------
-            +-----+------+  +-
-            \     |     /   |
-             \    |    /    |
-rayViewDist   \   |   /     | screenDistance aka projectionPlaneDistance
-               \  |  /      |
-                \a| /       |
-                 \|/        |
-                  v         |_
-	// Pythagoras
-	rayViewDist = squareroot(screenX*screenX + screenDistance*screenDistance)
-	// asin is the reverse of sin
-	asin(opposite / hypotenuse) = angle
-	angle = asin(opposite / hypotenuse)
-	a = asin( screenX / rayViewDist )
-	OR
-	a = atan( screenX / screenDistance )
-	*/
-	
 
 }
 
@@ -64,25 +31,37 @@ void RayCaster::RayCast(SDL_Renderer *render,int x,int y)
 		//printf("%f\n",Pa);
 	}
 	
-	SDL_Color color = {255, 255, 255, 255};
+	SDL_Color color = {255, 0,0 , 255};
 
 	if(0 != SDL_SetRenderDrawColor(render, color.r,color.g, color.b, color.a))
    	{
       	 	fprintf(stderr,"Error SDL_SetRenderDrawColor : %s",SDL_GetError());
 	}
+	int xr=sin(Pa)*ScreenDistance+x; 
+	int yr=cos(Pa)*ScreenDistance+y;
    	SDL_Point point[2];
 	point[0].x = x;
 	point[0].y = y;
-	point[1].x = sin(Pa)*ScreenDistance+x; 
-	point[1].y = cos(Pa)*ScreenDistance+y;
+	point[1].x = xr;
+	point[1].y = yr;
 	SDL_RenderDrawLines(render, point, 2);
 	
-	color = {0, 255, 0, 255};
+	printf("x : %d y : %d xr : %d yr :  %d dx : %d dy : %d \n",x,y,xr,yr,x-xr,y-yr);
+	//regarder collision
 
-	if(0 != SDL_SetRenderDrawColor(render, color.r,color.g, color.b, color.a))
-   	{
-      	 	fprintf(stderr,"Error SDL_SetRenderDrawColor : %s",SDL_GetError());
+	int k=0;
+	for(int i=0;i<6;i++)
+	{
+		for (int j=0;j<8;j++)
+		{
+			if (map1[k] != 0)
+				checkCollision(xr,yr,j*80,i*80);	
+
+			k++;
+		}
 	}
+	printf("check complete\n");
+	/*
 	for (double i=0.1;i<0.5;i=i+0.1)
 	{
 
@@ -94,12 +73,6 @@ void RayCaster::RayCast(SDL_Renderer *render,int x,int y)
 
 	}
 
-	color = {255, 0, 0, 255};
-
-	if(0 != SDL_SetRenderDrawColor(render, color.r,color.g, color.b, color.a))
-   	{
-      	 	fprintf(stderr,"Error SDL_SetRenderDrawColor : %s",SDL_GetError());
-	}
 
 	for (double i=0.1;i<0.5;i=i+0.1)
 	{
@@ -111,4 +84,20 @@ void RayCaster::RayCast(SDL_Renderer *render,int x,int y)
 		SDL_RenderDrawLines(render, point, 2);
 
 	}
+	*/
 }
+
+void checkCollision(int x1,int y1,int x2,int y2)
+{
+	SDL_bool coli;
+	SDL_Rect rect1 = {x1,y1,1,1};
+
+	SDL_Rect rect2 = {x2,y2,80,80};
+	coli = SDL_HasIntersection(&rect1,&rect2);
+
+	if (coli == SDL_TRUE)
+	{
+		printf("collision\n");
+	}
+}
+
